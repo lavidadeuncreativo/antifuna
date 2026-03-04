@@ -1,0 +1,1560 @@
+<!DOCTYPE html>
+<html lang="es" class="light">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Anti-Funa | La Vida de un Creativo</title>
+  <meta name="description"
+    content="Filtra tus pensamientos más polémicos. Transforma tu frustración en diplomacia impecable." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --bg: #F0EDE8;
+      --fg: #0A0A0A;
+      --card: #fff;
+      --out: #EDEDEA;
+      --shadow: 12px 12px 0px rgba(0, 0, 0, .9);
+      --ds: 'DM Serif Display', serif;
+      --ss: 'Inter', sans-serif
+    }
+
+    html.dark {
+      --bg: #111;
+      --fg: #F0EDE8;
+      --card: #1c1c1c;
+      --out: #242424;
+      --shadow: 12px 12px 0px rgba(255, 255, 255, .05)
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      font-family: var(--ss);
+      background: var(--bg);
+      color: var(--fg);
+      transition: background .4s, color .4s;
+      overflow-x: hidden;
+      min-height: 100vh
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: .4
+    }
+
+    /* === NAV GLASS === */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 40px;
+      background: rgba(240, 237, 232, .55);
+      backdrop-filter: blur(22px) saturate(180%);
+      -webkit-backdrop-filter: blur(22px) saturate(180%);
+      border-bottom: 1px solid rgba(255, 255, 255, .25);
+      box-shadow: 0 2px 24px rgba(0, 0, 0, .07), inset 0 1px 0 rgba(255, 255, 255, .45);
+      transition: background .4s
+    }
+
+    html.dark nav {
+      background: rgba(17, 17, 17, .55);
+      border-bottom-color: rgba(255, 255, 255, .07);
+      box-shadow: 0 2px 24px rgba(0, 0, 0, .35), inset 0 1px 0 rgba(255, 255, 255, .06)
+    }
+
+    .logo {
+      font-size: 17px;
+      font-weight: 900;
+      letter-spacing: -.05em;
+      text-transform: uppercase;
+      line-height: 1;
+      color: var(--fg)
+    }
+
+    .logo span {
+      display: block;
+      font-size: 9px;
+      font-weight: 400;
+      letter-spacing: .25em;
+      opacity: .5;
+      margin-top: 2px
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--fg);
+      opacity: .6;
+      transition: opacity .2s;
+      position: relative
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--fg);
+      transition: width .3s
+    }
+
+    .nav-links a:hover {
+      opacity: 1
+    }
+
+    .nav-links a:hover::after {
+      width: 100%
+    }
+
+    #dark-toggle {
+      background: rgba(128, 128, 128, .12);
+      border: 1px solid rgba(128, 128, 128, .18);
+      cursor: pointer;
+      color: var(--fg);
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background .2s;
+      backdrop-filter: blur(8px)
+    }
+
+    #dark-toggle:hover {
+      background: rgba(128, 128, 128, .22)
+    }
+
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--fg);
+      padding: 4px
+    }
+
+    /* PROGRESS */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      background: var(--fg);
+      z-index: 9999;
+      width: 0;
+      transition: width .12s linear
+    }
+
+    /* CURSOR */
+    .cursor-dot,
+    .cursor-ring {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      mix-blend-mode: difference
+    }
+
+    .cursor-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--fg);
+      border-radius: 50%;
+      transition: width .2s, height .2s
+    }
+
+    .cursor-ring {
+      width: 36px;
+      height: 36px;
+      border: 1.5px solid var(--fg);
+      border-radius: 50%;
+      opacity: .7;
+      transition: width .3s, height .3s
+    }
+
+    @media(hover:none) {
+
+      .cursor-dot,
+      .cursor-ring {
+        display: none
+      }
+    }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 56px 40px 80px;
+      overflow: visible
+    }
+
+    .sticky-field {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 40
+    }
+
+    /* STICKIES */
+    .sticky {
+      position: absolute;
+      padding: 14px 16px;
+      box-shadow: 4px 6px 22px rgba(0, 0, 0, .2);
+      pointer-events: auto;
+      cursor: grab;
+      user-select: none;
+      width: 185px;
+      opacity: 0;
+      will-change: transform, opacity
+    }
+
+    .sticky.s-in {
+      animation: sIn .9s cubic-bezier(.34, 1.4, .64, 1) forwards
+    }
+
+    .sticky.s-out {
+      animation: sOut .7s cubic-bezier(.4, 0, .2, 1) forwards
+    }
+
+    .sticky:active {
+      cursor: grabbing
+    }
+
+    @keyframes sIn {
+      0% {
+        opacity: 0;
+        transform: scale(.4) rotate(var(--rot)) translateY(30px);
+        filter: blur(10px)
+      }
+
+      60% {
+        filter: blur(0)
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1) rotate(var(--rot)) translateY(0);
+        filter: blur(0)
+      }
+    }
+
+    @keyframes sOut {
+      0% {
+        opacity: 1;
+        transform: scale(1) rotate(var(--rot)) translateY(0)
+      }
+
+      40% {
+        transform: scale(1.06) rotate(var(--rot)) translateY(-6px)
+      }
+
+      100% {
+        opacity: 0;
+        transform: scale(.3) rotate(calc(var(--rot) + 15deg)) translateY(20px);
+        filter: blur(8px)
+      }
+    }
+
+    .s-label {
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+      opacity: .7
+    }
+
+    .s-tag {
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin: 8px 0 4px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255, 255, 255, .25)
+    }
+
+    .s-tag.dk {
+      border-top-color: rgba(0, 0, 0, .15)
+    }
+
+    .s-text {
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 1.45;
+      font-style: italic
+    }
+
+    /* HERO TEXT */
+    .hero-text {
+      text-align: center;
+      position: relative;
+      z-index: 10
+    }
+
+    .kicker {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .32em;
+      text-transform: uppercase;
+      opacity: .38;
+      margin-bottom: 22px;
+      display: block;
+      animation: fadeUp .8s .2s both
+    }
+
+    h1 {
+      font-family: var(--ds);
+      font-size: clamp(42px, 6.2vw, 88px);
+      line-height: .94;
+      letter-spacing: -.025em;
+      margin-bottom: 26px;
+      animation: fadeUp .9s .35s both
+    }
+
+    h1 em {
+      font-style: italic
+    }
+
+    .hero-sub {
+      max-width: 500px;
+      margin: 0 auto;
+      font-size: 15px;
+      line-height: 1.7;
+      opacity: .6;
+      animation: fadeUp 1s .5s both
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(26px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    /* EDITOR */
+    .editor-wrap {
+      position: relative;
+      z-index: 10;
+      max-width: 860px;
+      margin: 40px auto 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 2px solid var(--fg);
+      box-shadow: var(--shadow);
+      background: var(--fg);
+      gap: 1px;
+      animation: fadeUp 1s .62s both;
+      transition: box-shadow .4s
+    }
+
+    .ep {
+      background: var(--card);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      min-height: 280px;
+      transition: background .4s
+    }
+
+    .ep.right {
+      background: var(--out)
+    }
+
+    .ph {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px
+    }
+
+    .pt {
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: -.04em;
+      text-transform: uppercase
+    }
+
+    .ptag {
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      opacity: .38
+    }
+
+    .ptag.gr {
+      opacity: 1;
+      color: #16a34a;
+      font-weight: 800
+    }
+
+    .editor-ta {
+      flex: 1;
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      resize: none;
+      font-family: var(--ss);
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--fg);
+      line-height: 1.6;
+      caret-color: var(--fg)
+    }
+
+    .editor-ta::placeholder {
+      color: var(--fg);
+      opacity: .28
+    }
+
+    .pf {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(128, 128, 128, .14)
+    }
+
+    .mac-dots {
+      display: flex;
+      gap: 5px
+    }
+
+    .mac-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 0
+    }
+
+    .char-count {
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      opacity: .28;
+      text-transform: uppercase;
+      margin-left: 10px
+    }
+
+    .char-count.warn {
+      color: #ef4444;
+      opacity: .85
+    }
+
+    .btn-p {
+      background: var(--fg);
+      color: var(--bg);
+      border: none;
+      padding: 11px 24px;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform .15s, box-shadow .15s, background .4s, color .4s
+    }
+
+    .btn-p:hover {
+      transform: translateY(-1px);
+      box-shadow: 4px 4px 0 rgba(0, 0, 0, .25)
+    }
+
+    .btn-p:active {
+      transform: scale(.97)
+    }
+
+    .res-text {
+      flex: 1;
+      font-family: var(--ds);
+      font-size: clamp(15px, 1.8vw, 20px);
+      font-style: italic;
+      line-height: 1.48;
+      color: var(--fg);
+      opacity: .82
+    }
+
+    .cursor-blink {
+      display: inline-block;
+      width: 2px;
+      height: .9em;
+      background: var(--fg);
+      vertical-align: text-bottom;
+      animation: blink 1s infinite;
+      margin-left: 2px
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: 0
+      }
+    }
+
+    .pf-right {
+      display: flex;
+      gap: 16px
+    }
+
+    .btn-icon {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--fg);
+      opacity: .4;
+      transition: opacity .2s, transform .2s;
+      display: flex;
+      align-items: center;
+      gap: 5px
+    }
+
+    .btn-icon:hover {
+      opacity: 1;
+      transform: translateY(-1px)
+    }
+
+    .btn-icon svg {
+      width: 13px;
+      height: 13px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2
+    }
+
+    /* LOGO SLIDER */
+    .logos-section {
+      padding: 64px 0 28px;
+      overflow: hidden;
+      z-index: 10;
+      position: relative
+    }
+
+    .logos-title {
+      text-align: center;
+      font-size: clamp(16px, 2.4vw, 28px);
+      font-weight: 900;
+      letter-spacing: -.025em;
+      text-transform: uppercase;
+      margin-bottom: 40px;
+      padding: 0 40px;
+      opacity: .85
+    }
+
+    .slider-track {
+      display: flex;
+      width: max-content;
+      animation: slideL 55s linear infinite
+    }
+
+    .slider-track:hover {
+      animation-play-state: paused
+    }
+
+    @keyframes slideL {
+      from {
+        transform: translateX(0)
+      }
+
+      to {
+        transform: translateX(-50%)
+      }
+    }
+
+    .logo-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 50px;
+      white-space: nowrap;
+      opacity: .5;
+      transition: opacity .3s;
+      filter: grayscale(1);
+      height: 56px
+    }
+
+    .logo-item:hover {
+      opacity: 1;
+      filter: grayscale(0)
+    }
+
+    .logo-text {
+      font-weight: 900;
+      font-size: 17px;
+      letter-spacing: -.04em;
+      text-transform: uppercase
+    }
+
+    .logo-serif {
+      font-family: var(--ds);
+      font-size: 36px;
+      line-height: 1
+    }
+
+    .logo-box {
+      background: var(--fg);
+      color: var(--bg);
+      padding: 5px 12px;
+      font-weight: 900;
+      font-size: 15px;
+      font-style: italic;
+      letter-spacing: -.04em;
+      text-transform: uppercase;
+      transition: background .4s, color .4s
+    }
+
+    .logo-pill {
+      border: 2px solid var(--fg);
+      padding: 4px 12px;
+      font-weight: 900;
+      font-size: 12px;
+      letter-spacing: .05em;
+      text-transform: uppercase
+    }
+
+    .logo-border {
+      border-left: 3px solid var(--fg);
+      padding-left: 10px;
+      text-align: left;
+      transition: border-color .4s
+    }
+
+    .logo-border .lg {
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      line-height: 1
+    }
+
+    .logo-border .li {
+      font-family: var(--ds);
+      font-size: 19px;
+      font-style: italic;
+      line-height: 1
+    }
+
+    .logo-circle {
+      width: 36px;
+      height: 36px;
+      background: var(--fg);
+      color: var(--bg);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 15px;
+      margin-right: 8px;
+      transition: background .4s, color .4s;
+      flex-shrink: 0
+    }
+
+    .logo-row {
+      display: flex;
+      align-items: center
+    }
+
+    /* REVIEWS STACK */
+    .reviews-section {
+      padding: 80px 40px 70px;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 10
+    }
+
+    .reviews-title {
+      font-size: clamp(20px, 3vw, 36px);
+      font-weight: 900;
+      letter-spacing: -.03em;
+      text-transform: uppercase;
+      margin-bottom: 44px
+    }
+
+    .rev-stack {
+      position: relative;
+      height: 200px;
+      margin-bottom: 20px
+    }
+
+    .rev-card {
+      position: absolute;
+      inset: 0;
+      background: var(--card);
+      border: 1.5px solid rgba(128, 128, 128, .14);
+      padding: 22px 26px;
+      transition: opacity .55s ease, transform .55s cubic-bezier(.4, 0, .2, 1), background .4s;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between
+    }
+
+    .rev-card.hidden {
+      opacity: 0;
+      transform: translateY(16px) scale(.97);
+      pointer-events: none
+    }
+
+    .rev-card.active {
+      opacity: 1;
+      transform: translateY(0) scale(1)
+    }
+
+    .rev-card.exit {
+      opacity: 0;
+      transform: translateY(-14px) scale(.97);
+      pointer-events: none
+    }
+
+    .rev-stars {
+      font-size: 12px;
+      margin-bottom: 10px;
+      letter-spacing: .5px
+    }
+
+    .rev-text {
+      font-size: 14px;
+      line-height: 1.58;
+      opacity: .88;
+      font-weight: 500;
+      flex: 1;
+      font-style: italic
+    }
+
+    .rev-author {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      opacity: .4;
+      margin-top: 14px
+    }
+
+    .rev-dots {
+      display: flex;
+      gap: 7px;
+      margin-top: 18px;
+      justify-content: flex-end
+    }
+
+    .rev-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--fg);
+      opacity: .18;
+      cursor: pointer;
+      transition: opacity .25s, transform .2s
+    }
+
+    .rev-dot.on {
+      opacity: .75;
+      transform: scale(1.3)
+    }
+
+    /* ANECDOTAS */
+    .anec-section {
+      padding: 80px 40px;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 10
+    }
+
+    .anec-title {
+      font-size: clamp(22px, 3vw, 38px);
+      font-weight: 900;
+      letter-spacing: -.04em;
+      text-transform: uppercase;
+      margin-bottom: 10px
+    }
+
+    .anec-sub {
+      font-size: 13px;
+      opacity: .5;
+      margin-bottom: 36px;
+      line-height: 1.65;
+      max-width: 560px
+    }
+
+    .anec-form {
+      display: grid;
+      gap: 12px
+    }
+
+    .anec-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px
+    }
+
+    .anec-input,
+    .anec-ta,
+    .anec-select {
+      width: 100%;
+      background: var(--card);
+      border: 1.5px solid rgba(128, 128, 128, .2);
+      padding: 12px 15px;
+      font-family: var(--ss);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--fg);
+      outline: none;
+      transition: border .2s, background .4s;
+      -webkit-appearance: none
+    }
+
+    .anec-ta {
+      resize: vertical;
+      min-height: 120px;
+      line-height: 1.6
+    }
+
+    .anec-input:focus,
+    .anec-ta:focus,
+    .anec-select:focus {
+      border-color: var(--fg)
+    }
+
+    .anec-select {
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      background-color: var(--card)
+    }
+
+    .anec-check {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 12px;
+      font-weight: 600;
+      opacity: .65;
+      cursor: pointer
+    }
+
+    .anec-check input {
+      width: 15px;
+      height: 15px;
+      cursor: pointer;
+      accent-color: var(--fg)
+    }
+
+    .btn-submit {
+      background: var(--fg);
+      color: var(--bg);
+      border: none;
+      padding: 13px 30px;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform .15s, box-shadow .15s, background .4s, color .4s
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 4px 4px 0 rgba(0, 0, 0, .22)
+    }
+
+    .anec-feed {
+      margin-top: 44px
+    }
+
+    .anec-feed-title {
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      opacity: .35;
+      margin-bottom: 18px
+    }
+
+    .anec-post {
+      border-left: 3px solid rgba(128, 128, 128, .3);
+      padding: 12px 16px;
+      margin-bottom: 14px;
+      transition: border-color .4s
+    }
+
+    .anec-post:hover {
+      border-left-color: var(--fg)
+    }
+
+    .anec-post-text {
+      font-size: 13px;
+      line-height: 1.62;
+      font-style: italic;
+      margin-bottom: 6px;
+      opacity: .88
+    }
+
+    .anec-post-meta {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      opacity: .38
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid rgba(128, 128, 128, .12);
+      padding: 44px 40px;
+      text-align: center
+    }
+
+    .fc {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      opacity: .35;
+      margin-bottom: 22px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    .fl {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      opacity: .4;
+      flex-wrap: wrap
+    }
+
+    .fl a {
+      text-decoration: none;
+      color: var(--fg);
+      transition: opacity .2s
+    }
+
+    .fl a:hover {
+      opacity: .85;
+      text-decoration: underline
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 26px;
+      left: 50%;
+      transform: translateX(-50%) translateY(18px);
+      background: var(--fg);
+      color: var(--bg);
+      padding: 12px 26px;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      opacity: 0;
+      transition: opacity .3s, transform .4s cubic-bezier(.34, 1.56, .64, 1);
+      z-index: 9999;
+      pointer-events: none;
+      white-space: nowrap
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0)
+    }
+
+    /* MOBILE CTA */
+    .mobile-cta {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 500
+    }
+
+    /* MOBILE MENU */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 998;
+      background: rgba(240, 237, 232, .96);
+      backdrop-filter: blur(20px);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px
+    }
+
+    html.dark .mobile-menu {
+      background: rgba(17, 17, 17, .96)
+    }
+
+    .mobile-menu.open {
+      display: flex
+    }
+
+    .mobile-menu a {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -.04em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--fg);
+      opacity: .85
+    }
+
+    .mobile-menu-close {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      background: none;
+      border: none;
+      font-size: 28px;
+      cursor: pointer;
+      color: var(--fg);
+      line-height: 1
+    }
+
+    /* RESPONSIVE */
+    @media(max-width:860px) {
+      nav {
+        padding: 14px 20px
+      }
+
+      .nav-links {
+        display: none
+      }
+
+      .hamburger {
+        display: flex;
+        align-items: center;
+        justify-content: center
+      }
+
+      .hero {
+        padding: 36px 20px 60px
+      }
+
+      .sticky-field {
+        display: none
+      }
+
+      .editor-wrap {
+        grid-template-columns: 1fr;
+        margin-top: 28px
+      }
+
+      .ep {
+        min-height: 200px
+      }
+
+      .logos-section {
+        padding: 50px 0 20px
+      }
+
+      .reviews-section {
+        padding: 60px 20px 50px
+      }
+
+      .anec-section {
+        padding: 60px 20px 50px
+      }
+
+      .anec-row {
+        grid-template-columns: 1fr
+      }
+
+      footer {
+        padding: 36px 20px
+      }
+
+      .fc {
+        white-space: normal;
+        text-align: center
+      }
+
+      .mobile-cta {
+        display: block
+      }
+
+      h1 {
+        font-size: clamp(38px, 11vw, 60px)
+      }
+    }
+
+    @media(min-width:861px) {
+      .mobile-cta {
+        display: none !important
+      }
+    }
+
+    section[id],
+    div[id] {
+      scroll-margin-top: 80px
+    }
+  </style>
+</head>
+
+<body>
+  <div class="progress-bar" id="progressBar"></div>
+  <div class="cursor-dot" id="cDot"></div>
+  <div class="cursor-ring" id="cRing"></div>
+  <div class="toast" id="toast"></div>
+
+  <!-- Mobile menu overlay -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-menu-close" id="menuClose" aria-label="Cerrar">&#x2715;</button>
+    <a href="#editor" onclick="closeMobileMenu()">Editor</a>
+    <a href="#resenas" onclick="closeMobileMenu()">Rese&#xF1;as</a>
+    <a href="#anecdotas" onclick="closeMobileMenu()">An&#xE9;cdotas</a>
+  </div>
+
+  <nav>
+    <div class="logo">ANTI-FUNA<span>La vida de un creativo</span></div>
+    <div class="nav-links">
+      <a href="#editor">Editor</a>
+      <a href="#resenas">Rese&#xF1;as</a>
+      <a href="#anecdotas">An&#xE9;cdotas</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <button id="dark-toggle" aria-label="Tema">
+        <svg id="ico-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+          stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </svg>
+        <svg id="ico-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+          style="display:none">
+          <circle cx="12" cy="12" r="5" />
+          <line x1="12" y1="1" x2="12" y2="3" />
+          <line x1="12" y1="21" x2="12" y2="23" />
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+          <line x1="1" y1="12" x2="3" y2="12" />
+          <line x1="21" y1="12" x2="23" y2="12" />
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+        </svg>
+      </button>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="2" y1="6" x2="20" y2="6" />
+          <line x1="2" y1="11" x2="20" y2="11" />
+          <line x1="2" y1="16" x2="20" y2="16" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="editor">
+    <div class="sticky-field" id="sField"></div>
+    <div class="hero-text">
+      <span class="kicker">La herramienta que filtra tus pensamientos m&#xE1;s pol&#xE9;micos</span>
+      <h1>Di lo que piensas,<br><em>evita la funa.</em></h1>
+      <p class="hero-sub">Transformamos tu frustraci&#xF3;n t&#xF3;xica en pasivo-agresividad corporativa impecable.
+        Porque ser directo en el trabajo es suicidio laboral.</p>
+    </div>
+
+    <div class="editor-wrap">
+      <div class="ep">
+        <div class="ph"><span class="pt">Antes</span><span class="ptag">Tu honestidad brutal</span></div>
+        <textarea id="inputText" class="editor-ta" placeholder="Escribe aqu&#xED; lo que realmente quieres decir..."
+          maxlength="500"></textarea>
+        <div class="pf">
+          <div style="display:flex;align-items:center">
+            <div class="mac-dots">
+              <div class="mac-dot" style="background:#EF4444"></div>
+              <div class="mac-dot" style="background:#F59E0B"></div>
+              <div class="mac-dot" style="background:#10B981"></div>
+            </div>
+            <span class="char-count" id="charCount">0/500</span>
+          </div>
+          <button class="btn-p" id="transformBtn">Limpiar Cringe</button>
+        </div>
+      </div>
+      <div class="ep right">
+        <div class="ph"><span class="pt">Enviable</span><span class="ptag gr" id="escudoTag">Escudo anti-despido
+            &#x2713;</span></div>
+        <div class="res-text" id="resultText">&#x201C;Agradezco la convocatoria; sin embargo, debido a compromisos
+          previamente agendados, me ser&#xE1; imposible concurrir en esta ocasi&#xF3;n...&#x201D;</div>
+        <div class="pf">
+          <div></div>
+          <div class="pf-right">
+            <button class="btn-icon" id="copyBtn">
+              <svg viewBox="0 0 24 24">
+                <rect x="9" y="9" width="13" height="13" rx="1" />
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+              </svg>Copiar
+            </button>
+            <button class="btn-icon" id="shareBtn">
+              <svg viewBox="0 0 24 24">
+                <circle cx="18" cy="5" r="3" />
+                <circle cx="6" cy="12" r="3" />
+                <circle cx="18" cy="19" r="3" />
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+              </svg>Compartir
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOGO SLIDER -->
+  <section class="logos-section">
+    <p class="logos-title">Usado por gente que odia su chamba en:</p>
+    <div style="overflow:hidden">
+      <div class="slider-track" id="logoTrack"></div>
+    </div>
+  </section>
+
+  <!-- REVIEWS STACK -->
+  <section class="reviews-section" id="resenas">
+    <p class="reviews-title">Lo que dicen &#x1F480;</p>
+    <div class="rev-stack" id="revStack"></div>
+    <div class="rev-dots" id="revDots"></div>
+  </section>
+
+  <!-- ANECDOTAS -->
+  <section id="anecdotas">
+    <div class="anec-section">
+      <h2 class="anec-title">Conf&#xED;esalo aqu&#xED; &#x1F92B;</h2>
+      <p class="anec-sub">&#xBF;Cu&#xE1;l fue tu peor momento laboral? An&#xF3;nimo o no, aqu&#xED; nadie te juzga.</p>
+      <form class="anec-form" id="anecForm" novalidate>
+        <div class="anec-row">
+          <input class="anec-input" id="anecName" type="text" placeholder="Tu nombre (opcional)" />
+          <select class="anec-select" id="anecCat">
+            <option value="">Categor&#xED;a de tu trauma...</option>
+            <option>Jefe insoportable &#x1F454;</option>
+            <option>Reuni&#xF3;n innecesaria &#x1F4C5;</option>
+            <option>Compa&#xF1;ero t&#xF3;xico &#x2620;&#xFE0F;</option>
+            <option>Email que casi me cuesta el trabajo &#x1F4E7;</option>
+            <option>Aumento negado &#x1F4B8;</option>
+            <option>Accidente de CC &#x1F631;</option>
+            <option>Otro desastre laboral &#x1F525;</option>
+          </select>
+        </div>
+        <textarea class="anec-ta" id="anecText"
+          placeholder="Cont&#xE1;nosla&#x2026; sé específico, el anonimato es tu escudo"></textarea>
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+          <label class="anec-check"><input type="checkbox" id="anecAnon" checked /> Publicar an&#xF3;nimo
+            &#x1F575;&#xFE0F;</label>
+          <button type="submit" class="btn-submit">Confesar mi trauma &#x1F525;</button>
+        </div>
+      </form>
+      <div class="anec-feed">
+        <p class="anec-feed-title">Confesiones recientes</p>
+        <div id="anecList"></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p class="fc">&#xA9; 2026 Creado por Israel Granados aka &#x201C;La vida de un creativo&#x201D; &middot; No nos
+      hacemos responsables si de todos modos te corren &middot; Viva la anti-funa</p>
+    <div class="fl">
+      <a href="#editor">LinkedIn del creador</a>
+      <a href="#">T&#xE9;rminos</a>
+      <a href="#">Inv&#xED;tale un caf&#xE9;</a>
+    </div>
+  </footer>
+
+  <div class="mobile-cta">
+    <button class="btn-p" onclick="document.getElementById('inputText').focus()">ABRIR EDITOR</button>
+  </div>
+
+  <script>
+    // CURSOR
+    const cD = document.getElementById('cDot'), cR = document.getElementById('cRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cD.style.left = mx + 'px'; cD.style.top = my + 'px' });
+    (function loop() { rx += (mx - rx) * .11; ry += (my - ry) * .11; cR.style.left = rx + 'px'; cR.style.top = ry + 'px'; requestAnimationFrame(loop) })();
+    document.querySelectorAll('button,a,.sticky').forEach(el => {
+      el.addEventListener('mouseenter', () => { cD.style.width = '14px'; cD.style.height = '14px'; cR.style.width = '54px'; cR.style.height = '54px' });
+      el.addEventListener('mouseleave', () => { cD.style.width = '8px'; cD.style.height = '8px'; cR.style.width = '36px'; cR.style.height = '36px' });
+    });
+
+    // DARK MODE
+    const toggle = document.getElementById('dark-toggle'), moon = document.getElementById('ico-moon'), sun = document.getElementById('ico-sun');
+    function setDark(d) { document.documentElement.classList.toggle('dark', d); moon.style.display = d ? 'none' : 'block'; sun.style.display = d ? 'block' : 'none'; localStorage.setItem('af-dark', d ? '1' : '') }
+    toggle.addEventListener('click', () => setDark(!document.documentElement.classList.contains('dark')));
+    if (localStorage.getItem('af-dark')) setDark(true);
+
+    // MOBILE MENU
+    document.getElementById('hamburger').addEventListener('click', () => document.getElementById('mobileMenu').classList.add('open'));
+    document.getElementById('menuClose').addEventListener('click', () => document.getElementById('mobileMenu').classList.remove('open'));
+    function closeMobileMenu() { document.getElementById('mobileMenu').classList.remove('open') }
+
+    // PROGRESS
+    window.addEventListener('scroll', () => { const h = document.body.scrollHeight - window.innerHeight; document.getElementById('progressBar').style.width = (h > 0 ? window.scrollY / h * 100 : 0) + '%' }, { passive: true });
+
+    // LOGOS
+    const logoData = [
+      { t: 'row', ic: 'O', n: 'OXXO' }, { t: 'box', n: 'LIVERPOOL' }, { t: 'text', n: 'TELMEX' },
+      { t: 'serif', tx: 'B', s: 'BIMBO' }, { t: 'pill', n: 'FEMSA' }, { t: 'border', g: 'Grupo', i: 'Televisa' },
+      { t: 'row', ic: 'P', n: 'PEMEX' }, { t: 'box', n: 'BANORTE' }, { t: 'text', n: 'SORIANA' },
+      { t: 'pill', n: 'CINÉPOLIS' }, { t: 'row', ic: 'B', n: 'BBVA' }, { t: 'box', n: 'COPPEL' },
+      { t: 'serif', tx: 'T', s: 'TELCEL' }, { t: 'text', n: 'LIVERPOOL' }, { t: 'border', g: 'Grupo', i: 'Bimsa' },
+    ];
+    function mkLogo(l) {
+      if (l.t === 'row') return `<div class="logo-row"><div class="logo-circle">${l.ic}</div><span class="logo-text">${l.n}</span></div>`;
+      if (l.t === 'serif') return `<div style="display:flex;flex-direction:column;align-items:center;gap:3px"><div class="logo-serif">${l.tx}</div><div style="font-size:7px;font-weight:900;letter-spacing:.3em">${l.s}</div></div>`;
+      if (l.t === 'box') return `<div class="logo-box">${l.n}</div>`;
+      if (l.t === 'pill') return `<div class="logo-pill">${l.n}</div>`;
+      if (l.t === 'border') return `<div class="logo-border"><div class="lg">${l.g}</div><div class="li">${l.i}</div></div>`;
+      return `<span class="logo-text">${l.n}</span>`;
+    }
+    const track = document.getElementById('logoTrack');
+    [...logoData, ...logoData].forEach(l => { const d = document.createElement('div'); d.className = 'logo-item'; d.innerHTML = mkLogo(l); track.appendChild(d) });
+
+    // STICKIES
+    const stickyData = [
+      { bg: '#9B59B6', tc: '#fff', rot: -6, pos: { left: '0', top: '0' }, b: 'Tu idea es una basura, la neta.', a: 'Consideramos que hay oportunidades de mejora significativas en esta propuesta.' },
+      { bg: '#E67E22', tc: '#fff', rot: 5, pos: { right: '8px', top: '8px' }, b: '"NO MAMES, PÁGAME."', a: '"Quedo atento al comprobante para conciliación contable."' },
+      { bg: '#E74C3C', tc: '#fff', rot: -4, pos: { left: '0', top: '48%' }, b: 'No me interesa tu teambuilding de mierda.', a: 'Priorizaré mis compromisos actuales en esa fecha.' },
+      { bg: '#3498DB', tc: '#fff', rot: 4, pos: { right: '8px', top: '48%' }, b: '"Oye ya quedó?? Me urge cabrón."', a: '"Quedo a la espera de tu amable confirmación."' },
+      { bg: '#F1C40F', tc: '#0A0A0A', rot: -5, pos: { left: '20px', bottom: '20px' }, b: 'Me caes bien mal, pícate la cola.', a: 'Encuentro nuestra interacción particularmente desafiante en este momento.' },
+      { bg: '#2ECC71', tc: '#0A0A0A', rot: 6, pos: { right: '20px', bottom: '20px' }, b: 'Si usas "bendiciones" mereces que te corran.', a: 'Un cordial saludo. Quedo a sus órdenes.' },
+    ];
+    const sField = document.getElementById('sField');
+    const sEls = stickyData.map(d => {
+      const el = document.createElement('div');
+      el.className = 'sticky';
+      el.style.setProperty('--rot', d.rot + 'deg');
+      Object.assign(el.style, d.pos, { background: d.bg, color: d.tc });
+      const isDark = d.tc === '#fff';
+      el.innerHTML = `<div class="s-label">Antes:</div><div class="s-text">"${d.b}"</div><div class="s-tag ${isDark ? '' : 'dk'}">Enviable:</div><div class="s-text">"${d.a}"</div>`;
+      sField.appendChild(el);
+      return el;
+    });
+
+    let shown = new Set();
+    const VISIBLE_MS = 2300, ANIM_IN = 900, ANIM_OUT = 700;
+
+    function showSticky() {
+      const avail = sEls.filter(e => !shown.has(e));
+      if (!avail.length) return;
+      const pick = avail[Math.floor(Math.random() * avail.length)];
+      shown.add(pick);
+      pick.style.opacity = '0';
+      pick.classList.remove('s-out');
+      void pick.offsetWidth;
+      pick.classList.add('s-in');
+      // After entrance animation, keep visible by setting opacity explicitly
+      setTimeout(() => { pick.classList.remove('s-in'); pick.style.opacity = '1' }, ANIM_IN);
+      // After visible duration, dismiss smoothly
+      setTimeout(() => dismiss(pick), ANIM_IN + VISIBLE_MS);
+    }
+    function dismiss(el) {
+      el.classList.add('s-out');
+      setTimeout(() => { el.classList.remove('s-out'); el.style.opacity = '0'; shown.delete(el) }, ANIM_OUT);
+    }
+    // Stagger initial appearance
+    sEls.forEach((_, i) => setTimeout(showSticky, 500 + i * 4200));
+    // Keep cycling
+    setInterval(() => { if (shown.size < 2) showSticky() }, 5000);
+
+    // STICKY DRAG
+    sEls.forEach(sticky => {
+      let drag = false, sx, sy, ox, oy;
+      sticky.addEventListener('mousedown', e => {
+        drag = true; sticky.style.zIndex = '300';
+        sx = e.clientX; sy = e.clientY;
+        const r = sticky.getBoundingClientRect(); ox = r.left; oy = r.top;
+        sticky.style.cssText += ';position:fixed;left:' + ox + 'px;top:' + oy + 'px;right:auto;bottom:auto';
+        e.preventDefault();
+      });
+      document.addEventListener('mousemove', e => { if (!drag) return; sticky.style.left = (ox + e.clientX - sx) + 'px'; sticky.style.top = (oy + e.clientY - sy) + 'px' });
+      document.addEventListener('mouseup', () => { drag = false });
+    });
+
+    // CHAR COUNT
+    const inputText = document.getElementById('inputText'), charCount = document.getElementById('charCount');
+    inputText.addEventListener('input', () => { const l = inputText.value.length; charCount.textContent = l + '/500'; charCount.classList.toggle('warn', l > 440) });
+
+    // TRANSFORM ENGINE V5 — Serverless API proxy (key protected on server)
+    let typTimer = null;
+    function typeResult(el, text) {
+      el.innerHTML = ''; let i = 0;
+      const cur = document.createElement('span'); cur.className = 'cursor-blink'; el.appendChild(cur);
+      function next() { if (i < text.length) { cur.insertAdjacentText('beforebegin', text[i++]); typTimer = setTimeout(next, 13 + Math.random() * 14) } else cur.remove() }
+      next();
+    }
+
+    let isTransforming = false;
+    document.getElementById('transformBtn').addEventListener('click', async () => {
+      const raw = inputText.value.trim(); if (!raw || isTransforming) return;
+      if (typTimer) clearTimeout(typTimer);
+
+      const el = document.getElementById('resultText');
+      const btn = document.getElementById('transformBtn');
+
+      // Loading state
+      isTransforming = true;
+      btn.textContent = 'Transformando...';
+      btn.style.opacity = '.6';
+      el.innerHTML = '<span class="cursor-blink"></span>';
+
+      try {
+        const res = await fetch('/api/transform', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: raw })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Error del servidor');
+        el.innerHTML = '';
+        typeResult(el, '"' + data.result.replace(/^[""]|[""]$/g, '') + '"');
+      } catch (err) {
+        el.innerHTML = '<span style="color:#ef4444;font-style:normal;font-size:13px">⚠️ ' + err.message + '</span>';
+      } finally {
+        isTransforming = false;
+        btn.textContent = 'Limpiar Cringe';
+        btn.style.opacity = '';
+      }
+    });
+    inputText.addEventListener('keydown', e => { if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') document.getElementById('transformBtn').click() });
+
+    // COPY & SHARE
+    function toast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2200) }
+    document.getElementById('copyBtn').addEventListener('click', () => {
+      const txt = (document.getElementById('resultText').innerText || '').trim();
+      if (!txt) return;
+      navigator.clipboard.writeText(txt).then(() => toast('Copiado!')).catch(() => { const ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); toast('Copiado!') });
+    });
+    document.getElementById('shareBtn').addEventListener('click', () => {
+      const txt = (document.getElementById('resultText').innerText || '').trim();
+      if (navigator.share) navigator.share({ title: 'Anti-Funa', text: txt });
+      else navigator.clipboard.writeText(txt).then(() => toast('Listo para compartir'));
+    });
+
+    // REVIEWS STACK
+    const reviews = [
+      { stars: 5, text: 'juro que iba a mandar un audio de WhatsApp a todo el grupo diciéndole a mi jefe lo que pienso después de 3 años aguantando. mi amiga me mandó esto a tiempo. sigo empleada.', author: '@karens_mx' },
+      { stars: 5, text: 'escribí "no me pagan lo suficiente para esto" en el antes y salió algo tan elegante que mi jefe me preguntó si tenía coach. dije que sí.', author: '@pao.design — GDL' },
+      { stars: 4, text: 'casi le digo a toda la empresa en el all hands que la estrategia era una broma. lo convertí en "feedback constructivo". me dieron más presupuesto. qué.', author: '@rodrigo.c — Director' },
+      { stars: 5, text: 'usé el ultra pro para un correo de queja al proveedor. me contestaron disculpándose ellos. enmarqué la respuesta.', author: '@anon — Supply Chain' },
+      { stars: 5, text: 'mi compañero me cae horrible y estaba a punto de mandárselo en slack. lo traduje con esto y quedé como el más empático del equipo. me duele el alma.', author: '@luisaf — PM, CDMX' },
+      { stars: 4, text: 'puse "ya me hartaste págame" y salió algo que hasta sonaba como que yo era el irresponsable. igual me pagaron así que vale.', author: '@anon — Freelancer' },
+      { stars: 5, text: 'el cliente más difícil que tengo me metió cc a su jefe en un email horrible. usé esto para responder. me agradeció mi "madurez profesional". me quiero morir.', author: '@mi.chamba — Consultora' },
+      { stars: 5, text: 'iba a renunciar mandando algo que no se puede repetir aquí. ahora tengo el trabajo de mis sueños y mi ex jefe me recomienda sin saber nada.', author: '@danielamm — UX' },
+    ];
+
+    const revStack = document.getElementById('revStack'), revDots = document.getElementById('revDots');
+    let rIdx = 0, rTimer;
+    reviews.forEach((r, i) => {
+      const card = document.createElement('div');
+      card.className = 'rev-card' + (i === 0 ? ' active' : ' hidden');
+      const stars = '★'.repeat(r.stars) + '☆'.repeat(5 - r.stars);
+      card.innerHTML = `<div><div class="rev-stars">${stars}</div><p class="rev-text">"${r.text}"</p></div><p class="rev-author">${r.author}</p>`;
+      revStack.appendChild(card);
+      const dot = document.createElement('div');
+      dot.className = 'rev-dot' + (i === 0 ? ' on' : '');
+      dot.addEventListener('click', () => goToReview(i));
+      revDots.appendChild(dot);
+    });
+    function goToReview(next) {
+      const cards = revStack.querySelectorAll('.rev-card');
+      const dots = revDots.querySelectorAll('.rev-dot');
+      cards[rIdx].classList.replace('active', 'exit');
+      setTimeout(() => {
+        cards[rIdx].classList.replace('exit', 'hidden');
+        rIdx = next % reviews.length;
+        cards[rIdx].classList.replace('hidden', 'active');
+      }, 300);
+      dots.forEach((d, i) => d.classList.toggle('on', i === next % reviews.length));
+      clearInterval(rTimer); rTimer = setInterval(() => goToReview(rIdx + 1), 5500);
+    }
+    rTimer = setInterval(() => goToReview(rIdx + 1), 5500);
+
+    // ANECDOTES
+    const seedPosts = [
+      { name: 'Anónimo', cat: 'Email que casi me cuesta el trabajo 📧', text: 'respondí reply all a un correo de TODA la empresa dando mi opinión sobre los cambios al sistema de bonos. tardé 4 segundos en querer morirme. HR nunca dijo nada. nunca.' },
+      { name: 'Rodrigo', cat: 'Jefe insoportable 👔', text: 'mi jefe me preguntó si podía quedarme el viernes hasta las 9. era mi aniversario. lo que quería decirle lo reservo para mí. dije que sí y pedí divorcio ese mismo mes. (broma... creo)' },
+      { name: 'Anónimo', cat: 'Reunión innecesaria 📅', text: 'junta de 2 horas para "alinear expectativas del q3". al final: "bueno, pues ya saben lo que se espera de ustedes". me les quedé viendo 10 segundos en silencio antes de cerrar la cámara.' },
+      { name: 'Fernanda', cat: 'Correo con CC accidental 😱', text: 'le mandé a mi compañera de trabajo un mensaje de voz criticando al cliente diciéndole "es que el señor es un horror". el cliente estaba en el grupo. lo sigo soñando.' },
+      { name: 'Anónimo', cat: 'Compañero tóxico ☠️', text: 'tengo un compañero que dice "bendiciones" al final de cada correo. con anti-funa proceso mi ira de forma saludable. espero.' },
+    ];
+    let posts = JSON.parse(localStorage.getItem('af-posts') || 'null') || [...seedPosts];
+    function renderPosts() {
+      const list = document.getElementById('anecList'); list.innerHTML = '';
+      [...posts].reverse().slice(0, 8).forEach(p => {
+        const d = document.createElement('div'); d.className = 'anec-post';
+        d.innerHTML = `<p class="anec-post-text">"${p.text}"</p><p class="anec-post-meta">${p.name} &middot; ${p.cat}</p>`;
+        list.appendChild(d);
+      });
+    }
+    renderPosts();
+    document.getElementById('anecForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const text = document.getElementById('anecText').value.trim(); if (!text) return;
+      const anon = document.getElementById('anecAnon').checked;
+      const name = anon ? 'Anónimo' : (document.getElementById('anecName').value.trim() || 'Anónimo');
+      const cat = document.getElementById('anecCat').value || 'Otro desastre laboral 🔥';
+      posts.push({ name, cat, text });
+      localStorage.setItem('af-posts', JSON.stringify(posts));
+      document.getElementById('anecText').value = ''; document.getElementById('anecName').value = '';
+      renderPosts(); toast('Trauma publicado. La comunidad te ve.');
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Anti-Cringe Editor | Black Logo Edition</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&amp;family=Inter:wght@400;600;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#000000",
+                        "background-light": "#F4F1EE",
+                        "background-dark": "#121212",
+                    },
+                    fontFamily: {
+                        display: ["DM Serif Display", "serif"],
+                        sans: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0px",
+                    },
+                },
+            },
+        };
+    </script>
+<style type="text/tailwindcss">
+        .sticky-note {
+            transition: transform 0.3s ease;
+        }
+        .sticky-note:hover {
+            transform: scale(1.1) rotate(0deg) !important;
+            z-index: 50;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-primary dark:text-white font-sans transition-colors duration-300">
+<nav class="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto relative z-20">
+<div class="text-2xl font-extrabold tracking-tighter uppercase">Anti-Cringe <span class="text-xs block font-normal tracking-widest opacity-60">Black Logo Edition</span></div>
+<div class="hidden md:flex space-x-12 font-semibold text-sm uppercase tracking-widest">
+<a class="hover:underline" href="#">Editor</a>
+<a class="hover:underline" href="#">Archivo de Memes</a>
+<a class="hover:underline" href="#">Precios</a>
+</div>
+<div>
+<button class="p-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-full transition-colors" onclick="document.documentElement.classList.toggle('dark')">
+<span class="material-symbols-outlined dark:hidden">dark_mode</span>
+<span class="material-symbols-outlined hidden dark:block">light_mode</span>
+</button>
+</div>
+</nav>
+<main class="relative px-8 pt-12 pb-32 max-w-7xl mx-auto overflow-hidden">
+<div class="absolute inset-0 pointer-events-none overflow-hidden z-0">
+<div class="sticky-note absolute top-10 left-4 w-48 h-48 bg-[#FFD700] p-4 shadow-lg -rotate-4 pointer-events-auto hidden lg:block">
+<p class="font-bold text-[10px] mb-2">ANTES:</p>
+<p class="text-xs font-medium">"Oye, ¿ya quedó? Me urge."</p>
+<div class="mt-4 border-t border-black/10 pt-2">
+<p class="font-bold text-[10px] mb-1">PROFESIONAL:</p>
+<p class="text-[9px] italic">"Quedo atento a tus noticias sobre el estatus..."</p>
+</div>
+</div>
+<div class="sticky-note absolute bottom-24 right-10 w-56 h-56 bg-[#FF6B6B] p-6 shadow-xl rotate-5 pointer-events-auto hidden lg:block">
+<p class="font-bold text-xs mb-2 text-white">ANTES:</p>
+<p class="text-lg font-black text-white italic">"NO MAMES, PÁGAME."</p>
+<div class="mt-4 border-t border-white/20 pt-2">
+<p class="font-bold text-[10px] text-white">ENVIABLE:</p>
+<p class="text-[11px] text-white">"Estimados, quedo atento al comprobante para conciliación."</p>
+</div>
+</div>
+<div class="sticky-note absolute top-1/2 left-0 w-52 h-52 bg-[#9B59B6] p-5 shadow-lg rotate-7 pointer-events-auto hidden xl:block">
+<p class="font-bold text-xs mb-2 text-white">ANTES:</p>
+<p class="text-sm font-medium text-white italic">"Tu idea es una basura, la neta."</p>
+<div class="mt-4 border-t border-white/20 pt-2">
+<p class="font-bold text-[10px] text-white">PROFESSIONAL:</p>
+<p class="text-[10px] text-white">"Considero que podemos explorar avenidas más alineadas a..."</p>
+</div>
+</div>
+<div class="sticky-note absolute top-20 right-20 w-44 h-44 bg-[#2ECC71] p-4 shadow-lg -rotate-6 pointer-events-auto hidden lg:block">
+<p class="font-bold text-xs mb-2">CONSEJO:</p>
+<p class="text-xs font-medium italic">"Si usas 'bendiciones' en Slack, mereces que te corran."</p>
+</div>
+<div class="sticky-note absolute top-[40%] right-[5%] w-40 h-40 bg-[#3498DB] p-4 shadow-lg rotate-3 pointer-events-auto hidden xl:block">
+<p class="font-bold text-xs mb-2 text-white">CASO RRHH:</p>
+<p class="text-xs font-medium text-white italic">"No me interesa tu dinámica de integración."</p>
+<div class="mt-2 border-t border-white/20 pt-2">
+<p class="text-[9px] text-white font-bold">TRADUCCIÓN:</p>
+<p class="text-[9px] text-white italic">"Priorizaré mis entregables actuales."</p>
+</div>
+</div>
+<div class="sticky-note absolute bottom-10 left-[15%] w-44 h-44 bg-[#E67E22] p-4 shadow-lg -rotate-5 pointer-events-auto hidden lg:block">
+<p class="font-bold text-xs mb-2 text-white">REGLA DE ORO:</p>
+<p class="text-xs font-black text-white italic">"El 'CC' a tu jefe es una declaración de guerra."</p>
+</div>
+<div class="sticky-note absolute top-1/4 left-1/4 w-40 h-40 bg-[#F1C40F] p-4 shadow-lg rotate-2 pointer-events-auto hidden 2xl:block">
+<p class="font-bold text-xs mb-2 text-black">URGENTE:</p>
+<p class="text-xs font-medium text-black italic">"¿Para cuándo el reporte?"</p>
+<div class="mt-2 border-t border-black/20 pt-2">
+<p class="text-[9px] text-black italic">"Quedo a la espera de tu amable confirmación..."</p>
+</div>
+</div>
+</div>
+<div class="relative z-10 text-center mb-16 pt-12">
+<p class="uppercase tracking-[0.4em] text-[10px] font-extrabold mb-8 opacity-60">El profesionalizador definitivo de la CDMX</p>
+<h1 class="font-display text-6xl md:text-8xl lg:text-[10rem] leading-none mb-8 tracking-tighter">
+                Di lo que piensas,<br/><span class="italic font-normal">evita la funa.</span>
+</h1>
+<p class="max-w-2xl mx-auto text-lg md:text-xl opacity-80 leading-relaxed font-medium">
+                Transformamos tu frustración tóxica en pasivo-agresividad corporativa impecable. Porque ser directo en el corporativo mexicano es suicidio laboral.
+            </p>
+</div>
+<div class="relative z-10 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-px bg-primary dark:bg-white border-4 border-primary dark:border-white shadow-[30px_30px_0px_0px_rgba(0,0,0,1)] dark:shadow-[30px_30px_0px_0px_rgba(255,255,255,0.05)]">
+<div class="bg-white dark:bg-[#1A1A1A] p-8 flex flex-col h-96">
+<div class="flex items-center justify-between mb-6">
+<span class="font-black uppercase tracking-tighter text-2xl">Antes</span>
+<span class="text-[10px] font-bold opacity-40 uppercase tracking-widest">Tu honestidad brutal</span>
+</div>
+<textarea class="flex-1 w-full bg-transparent border-none focus:ring-0 p-0 text-xl font-medium resize-none placeholder-black/20 dark:placeholder-white/20 leading-tight" placeholder="Escribe aquí lo que realmente quieres decir... (ej: Me vale madres tu junta de las 6pm)"></textarea>
+<div class="pt-6 flex justify-between items-center">
+<div class="flex space-x-2">
+<div class="w-3 h-3 bg-red-500"></div>
+<div class="w-3 h-3 bg-yellow-500"></div>
+<div class="w-3 h-3 bg-green-500"></div>
+</div>
+<button class="bg-primary text-white dark:bg-white dark:text-black px-8 py-3 text-xs font-extrabold uppercase hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-all tracking-widest">
+                        Limpiar Cringe
+                    </button>
+</div>
+</div>
+<div class="bg-[#EFEFEF] dark:bg-[#222] p-8 flex flex-col h-96 border-t md:border-t-0 md:border-l border-primary dark:border-white/20">
+<div class="flex items-center justify-between mb-6">
+<span class="font-black uppercase tracking-tighter text-2xl">Enviable</span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-green-600 dark:text-green-400">Escudo anti-despido</span>
+</div>
+<div class="flex-1 text-2xl font-display italic text-primary/80 dark:text-white/80 leading-snug">
+                    "Agradezco la convocatoria; sin embargo, debido a compromisos previamente agendados, me será imposible concurrir en esta ocasión..."
+                </div>
+<div class="pt-6 flex justify-end space-x-6">
+<button class="flex items-center space-x-2 text-[10px] font-extrabold uppercase opacity-60 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-sm">content_copy</span>
+<span>Copiar</span>
+</button>
+<button class="flex items-center space-x-2 text-[10px] font-extrabold uppercase opacity-60 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-sm">share</span>
+<span>Compartir</span>
+</button>
+</div>
+</div>
+</div>
+<div class="mt-32 text-center relative z-10">
+<p class="font-black text-3xl md:text-4xl uppercase tracking-tighter mb-16">USADO POR GENTE QUE ODIA SU CHAMBA EN:</p>
+<div class="grid grid-cols-2 md:grid-cols-5 gap-12 items-center text-primary dark:text-white px-12 opacity-100">
+<div class="flex flex-col items-center">
+<div class="w-12 h-12 bg-primary dark:bg-white rounded-full mb-2 flex items-center justify-center">
+<span class="text-white dark:text-black font-black text-xl">P</span>
+</div>
+<div class="font-black text-lg tracking-tighter italic uppercase">PetroMex</div>
+</div>
+<div class="flex flex-col items-center">
+<div class="font-display text-5xl leading-none">B</div>
+<div class="font-bold text-[10px] tracking-[0.3em] uppercase mt-1">MAMUT</div>
+</div>
+<div class="flex items-center space-x-2">
+<div class="w-8 h-12 bg-primary dark:bg-white rounded-t-full"></div>
+<div class="font-black italic text-2xl tracking-tighter">TEL-GLOBAL</div>
+</div>
+<div class="bg-primary dark:bg-white px-4 py-1">
+<div class="text-white dark:text-black font-black text-2xl tracking-tighter italic uppercase">Tiendas XX</div>
+</div>
+<div class="flex flex-col items-start border-l-4 border-primary dark:border-white pl-3">
+<div class="font-black text-xs uppercase leading-none">Grupo</div>
+<div class="font-display text-2xl italic leading-none">Monolito</div>
+</div>
+</div>
+</div>
+</main>
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 md:hidden z-50">
+<button class="bg-primary text-white dark:bg-white dark:text-black px-10 py-5 font-black uppercase tracking-[0.2em] shadow-[10px_10px_0px_0px_rgba(0,0,0,0.2)]">
+            EDITAR AHORA
+        </button>
+</div>
+<footer class="border-t border-black/10 dark:border-white/10 py-16 px-8">
+<div class="max-w-7xl mx-auto flex flex-col items-center text-[10px] uppercase font-bold tracking-[0.2em] space-y-8 text-center">
+<div class="max-w-3xl opacity-60 leading-loose">
+<p>© 2026 Creado por Israel Granados aka "La vida de un creativo" con la finalidad de evitar la funa. No nos hacemos responsables si de todos modos te corren. Muerte al cringe.</p>
+</div>
+<div class="flex space-x-12 opacity-60">
+<a class="hover:underline" href="#">Archivo de Odio</a>
+<a class="hover:underline" href="#">Términos Legales</a>
+<a class="hover:underline decoration-red-500 decoration-2" href="#">Muerte al Cringe</a>
+</div>
+</div>
+</footer>
+
+</body></html>
