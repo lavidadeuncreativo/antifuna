@@ -17,8 +17,8 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'Text is required' });
     }
 
-    // Rate limit: max 500 chars
-    const input = text.trim().slice(0, 500);
+    // Rate limit: max 250 chars
+    const input = text.trim().slice(0, 250);
 
     const SYSTEM_PROMPT = `Eres "Anti-Funa", una herramienta que transforma textos potencialmente controversiales, groseros, agresivos, pasivo-agresivos, incómodos o "funables" en versiones diplomáticas, profesionales y enviables que transmiten EXACTAMENTE LA MISMA INTENCIÓN y mensaje, pero de una forma que no te puede meter en problemas.
 

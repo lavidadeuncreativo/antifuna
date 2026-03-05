@@ -221,7 +221,8 @@
       position: relative;
       max-width: 1400px;
       margin: 0 auto;
-      padding: 56px 40px 80px;
+      padding: 30px 40px 60px;
+      /* Reduced top & bottom padding to show logo slider */
       overflow: visible
     }
 
@@ -1206,17 +1207,16 @@
   <section class="hero" id="editor">
     <div class="sticky-field" id="sField"></div>
     <div class="hero-text">
-      <span class="kicker">La herramienta que filtra tus pensamientos m&#xE1;s pol&#xE9;micos</span>
-      <h1>Di lo que piensas,<br><em>evita la funa.</em></h1>
-      <p class="hero-sub">Transformamos tu frustraci&#xF3;n t&#xF3;xica en pasivo-agresividad corporativa impecable.
-        Porque ser directo en el trabajo es suicidio laboral.</p>
+      <span class="kicker">Porque a veces necesitamos pensarlo dos veces antes de enviar ese mensaje.</span>
+      <h1>Di lo que piensas,<br><em>evita que te despidan.</em></h1>
+      <p class="hero-sub">Escribe lo que de verdad piensas.<br>Copia y manda sin sonar grosero.</p>
     </div>
 
     <div class="editor-wrap">
       <div class="ep">
         <div class="ph"><span class="pt">Antes</span><span class="ptag">Tu honestidad brutal</span></div>
         <textarea id="inputText" class="editor-ta" placeholder="Escribe aqu&#xED; lo que realmente quieres decir..."
-          maxlength="500"></textarea>
+          maxlength="250"></textarea>
         <div class="pf">
           <div style="display:flex;align-items:center">
             <div class="mac-dots">
@@ -1224,9 +1224,9 @@
               <div class="mac-dot" style="background:#F59E0B"></div>
               <div class="mac-dot" style="background:#10B981"></div>
             </div>
-            <span class="char-count" id="charCount">0/500</span>
+            <span class="char-count" id="charCount">0/250</span>
           </div>
-          <button class="btn-p" id="transformBtn">Limpiar Cringe</button>
+          <button class="btn-p" id="transformBtn">Transformar</button>
         </div>
       </div>
       <div class="ep right">
@@ -1258,9 +1258,15 @@
     </div>
   </section>
 
+  <div
+    style="text-align:center; max-width:860px; margin: 12px auto 0; font-size: 11px; opacity: 0.6; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;"
+    id="globalCounterText">
+    +<span id="globalCounterVal">14,231</span> textos transformados para evitar que despidan a alguien...
+  </div>
+
   <!-- LOGO SLIDER -->
   <section class="logos-section">
-    <p class="logos-title">Usado por gente que odia su chamba en:</p>
+    <p class="logos-title">La herramienta m&#xE1;s utilizada por tu amigo god&#xED;n de empresas como:</p>
     <div style="overflow:hidden">
       <div class="slider-track" id="logoTrack"></div>
     </div>
@@ -1268,7 +1274,7 @@
 
   <!-- REVIEWS STACK -->
   <section class="reviews-section" id="resenas">
-    <p class="reviews-title">Lo que dicen &#x1F480;</p>
+    <p class="reviews-title">Lo que dicen despu&#xE9;s de haber utilizado la herramienta &#x1F480;</p>
     <div class="rev-stack" id="revStack"></div>
     <div class="rev-dots" id="revDots"></div>
   </section>
@@ -1311,9 +1317,11 @@
     <p class="fc">&#xA9; 2026 Creado por Israel Granados aka &#x201C;La vida de un creativo&#x201D; &middot; No nos
       hacemos responsables si de todos modos te corren &middot; Viva la anti-funa</p>
     <div class="fl">
-      <a href="#editor">LinkedIn del creador</a>
-      <a href="#">T&#xE9;rminos</a>
-      <a href="#">Inv&#xED;tale un caf&#xE9;</a>
+      <a href="https://www.linkedin.com/in/lavidadeuncreativo/" target="_blank">LinkedIn</a>
+      <a href="https://www.instagram.com/lavidadeuncreativo/" target="_blank">Instagram</a>
+      <a href="https://www.threads.net/@lavidadeuncreativo" target="_blank">Threads</a>
+      <a href="https://link.mercadopago.com.mx/lavidadeuncreativo" target="_blank">Inv&#xED;tale un caf&#xE9;
+        &#x2615;</a>
     </div>
   </footer>
 
@@ -1428,7 +1436,13 @@
 
     // CHAR COUNT
     const inputText = document.getElementById('inputText'), charCount = document.getElementById('charCount');
-    inputText.addEventListener('input', () => { const l = inputText.value.length; charCount.textContent = l + '/500'; charCount.classList.toggle('warn', l > 440) });
+    inputText.addEventListener('input', () => { const l = inputText.value.length; charCount.textContent = l + '/250'; charCount.classList.toggle('warn', l > 220) });
+
+    // GLOBAL COUNTER
+    let tCount = parseInt(localStorage.getItem('af-tcount') || '14231', 10);
+    const gCounter = document.getElementById('globalCounterVal');
+    if(gCounter) gCounter.textContent = tCount.toLocaleString('en-US');
+    function incCounter() { tCount += Math.floor(Math.random() * 3) + 1; localStorage.setItem('af-tcount', tCount.toString()); if(gCounter) gCounter.textContent = tCount.toLocaleString('en-US'); }
 
     // TRANSFORM ENGINE V5 — Serverless API proxy (key protected on server)
     let typTimer = null;
@@ -1463,11 +1477,12 @@
         if (!res.ok) throw new Error(data.error || 'Error del servidor');
         el.innerHTML = '';
         typeResult(el, '"' + data.result.replace(/^[""]|[""]$/g, '') + '"');
+        incCounter(); // Increment counter on success
       } catch (err) {
         el.innerHTML = '<span style="color:#ef4444;font-style:normal;font-size:13px">⚠️ ' + err.message + '</span>';
       } finally {
         isTransforming = false;
-        btn.textContent = 'Limpiar Cringe';
+        btn.textContent = 'Transformar';
         btn.style.opacity = '';
       }
     });
@@ -1482,20 +1497,23 @@
     });
     document.getElementById('shareBtn').addEventListener('click', () => {
       const txt = (document.getElementById('resultText').innerText || '').trim();
-      if (navigator.share) navigator.share({ title: 'Anti-Funa', text: txt });
-      else navigator.clipboard.writeText(txt).then(() => toast('Listo para compartir'));
+      const orig = (document.getElementById('inputText').value || '').trim();
+      if (!txt) return;
+      const shareText = `Como decir "${orig}" en corporativo:\n\n"${txt}"\n\nHecho con AntiFuna.`;
+      if (navigator.share) navigator.share({ title: 'Anti-Funa', text: shareText });
+      else navigator.clipboard.writeText(shareText).then(() => toast('Listo para compartir'));
     });
 
     // REVIEWS STACK
     const reviews = [
-      { stars: 5, text: 'juro que iba a mandar un audio de WhatsApp a todo el grupo diciéndole a mi jefe lo que pienso después de 3 años aguantando. mi amiga me mandó esto a tiempo. sigo empleada.', author: '@karens_mx' },
-      { stars: 5, text: 'escribí "no me pagan lo suficiente para esto" en el antes y salió algo tan elegante que mi jefe me preguntó si tenía coach. dije que sí.', author: '@pao.design — GDL' },
-      { stars: 4, text: 'casi le digo a toda la empresa en el all hands que la estrategia era una broma. lo convertí en "feedback constructivo". me dieron más presupuesto. qué.', author: '@rodrigo.c — Director' },
-      { stars: 5, text: 'usé el ultra pro para un correo de queja al proveedor. me contestaron disculpándose ellos. enmarqué la respuesta.', author: '@anon — Supply Chain' },
-      { stars: 5, text: 'mi compañero me cae horrible y estaba a punto de mandárselo en slack. lo traduje con esto y quedé como el más empático del equipo. me duele el alma.', author: '@luisaf — PM, CDMX' },
-      { stars: 4, text: 'puse "ya me hartaste págame" y salió algo que hasta sonaba como que yo era el irresponsable. igual me pagaron así que vale.', author: '@anon — Freelancer' },
-      { stars: 5, text: 'el cliente más difícil que tengo me metió cc a su jefe en un email horrible. usé esto para responder. me agradeció mi "madurez profesional". me quiero morir.', author: '@mi.chamba — Consultora' },
-      { stars: 5, text: 'iba a renunciar mandando algo que no se puede repetir aquí. ahora tengo el trabajo de mis sueños y mi ex jefe me recomienda sin saber nada.', author: '@danielamm — UX' },
+      { stars: 5, text: 'odio trabajar contigo → Ha sido un reto encontrar un ritmo de trabajo fluido últimamente.', author: '@karens_mx' },
+      { stars: 5, text: 'tu idea es una estupidez → Considero que el enfoque actual podría presentar riesgos si no lo ajustamos.', author: '@pao.design — GDL' },
+      { stars: 4, text: 'ya te mandé esto 3 veces lee maldita sea → Como mencioné en correos anteriores, adjunto la información solicitada.', author: '@rodrigo.c — Director' },
+      { stars: 5, text: 'no me pagan lo suficiente para hacer esto → Revisé mis responsabilidades actuales y esto queda fuera del alcance inicial.', author: '@anon — Supply Chain' },
+      { stars: 5, text: 'neta pareces nuevo haciendo esto → Podríamos agendar una sesión breve para asegurar que dominas el proceso sin problemas.', author: '@luisaf — PM, CDMX' },
+      { stars: 4, text: 'ya págame lo que me debes → Escribo para darle seguimiento al pago pendiente agendado para esta semana.', author: '@anon — Freelancer' },
+      { stars: 5, text: 'tu diseño está horrible la verdad → Siento que el diseño actual se aleja de la visión y los objetivos que habíamos planteado.', author: '@mi.chamba — Consultora' },
+      { stars: 5, text: 'me caes tan mal que quiero renunciar → Prefiero mantener nuestras interacciones limitadas a los temas críticos del proyecto.', author: '@danielamm — UX' },
     ];
 
     const revStack = document.getElementById('revStack'), revDots = document.getElementById('revDots');
@@ -1538,7 +1556,11 @@
       const list = document.getElementById('anecList'); list.innerHTML = '';
       [...posts].reverse().slice(0, 8).forEach(p => {
         const d = document.createElement('div'); d.className = 'anec-post';
-        d.innerHTML = `<p class="anec-post-text">"${p.text}"</p><p class="anec-post-meta">${p.name} &middot; ${p.cat}</p>`;
+        d.innerHTML = `<p class="anec-post-text">"${p.text}"</p>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <p class="anec-post-meta">${p.name} &middot; ${p.cat}</p>
+            <a href="#editor" style="font-size: 8px; font-weight: 800; text-transform: uppercase; color: var(--fg); text-decoration: none; padding: 4px 8px; border: 1px solid var(--fg); border-radius: 2px;">Generar respuesta similar</a>
+        </div>`;
         list.appendChild(d);
       });
     }
