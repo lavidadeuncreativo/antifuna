@@ -1025,6 +1025,77 @@
       text-decoration: underline
     }
 
+    /* MODALS */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.65);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-content {
+      background: var(--bg);
+      color: var(--fg);
+      padding: 36px 30px;
+      border-radius: 12px;
+      max-width: 440px;
+      width: 90%;
+      position: relative;
+      border: 1px solid rgba(128, 128, 128, 0.2);
+      transform: translateY(20px);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-overlay.open .modal-content {
+      transform: translateY(0);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 12px;
+      right: 18px;
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--fg);
+      opacity: 0.5;
+    }
+
+    .modal-close:hover {
+      opacity: 1;
+    }
+
+    .modal-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 32px;
+      margin-bottom: 12px;
+      line-height: 1.1;
+    }
+
+    .modal-text {
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+      opacity: 0.85;
+    }
+
     /* TOAST */
     .toast {
       position: fixed;
@@ -1336,7 +1407,7 @@
     <div class="rev-stack" id="revStack"></div>
     <div class="rev-dots" id="revDots"></div>
     <div style="text-align:center; margin-top:30px;">
-      <a href="#anecdotas" class="btn"
+      <a href="#" id="openReviewBtn" class="btn"
         style="display:inline-block; text-decoration:none; padding:12px 24px; font-size:14px; background:transparent; border:1px solid var(--fg); color:var(--fg);">Dejar
         una rese&#xF1;a</a>
     </div>
@@ -1391,6 +1462,36 @@
 
   <div class="mobile-cta">
     <button class="btn-p" onclick="document.getElementById('inputText').focus()">ABRIR EDITOR</button>
+  </div>
+
+  <!-- WELCOME MODAL -->
+  <div class="modal-overlay" id="welcomeModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('welcomeModal')">&#x2715;</button>
+      <h3 class="modal-title">¡Hola, soy Isra! &#x1F44B;</h3>
+      <p class="modal-text">Me da muchísimo gusto que estés por acá. Seguro tienes algo que decir pero no quieres que te
+        corran ¿verdad? Jajaja.<br><br>En fin, disfruta la herramienta, compártela con tus amigos para que también digan
+        cosas funables sin que los despidan.<br><br>Y si este sitio te ha salvado la chamba o te ha hecho reír,
+        ¡invítame un café o hazme una donación (el link está hasta abajo)! Lindo día.</p>
+      <button class="btn-p" style="width:100%"
+        onclick="closeModal('welcomeModal'); document.getElementById('inputText').focus()">A DARLE</button>
+    </div>
+  </div>
+
+  <!-- REVIEW MODAL -->
+  <div class="modal-overlay" id="reviewModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('reviewModal')">&#x2715;</button>
+      <h3 class="modal-title">Deja tu reseña &#x2B50;</h3>
+      <p class="modal-text" style="margin-bottom:12px">Cuéntanos cómo te salvó la chamba Anti-Funa.</p>
+      <form id="reviewForm" novalidate>
+        <input class="anec-input" id="revName" type="text" placeholder="Tu Twitter, IG o nombre" required
+          style="margin-bottom:8px" />
+        <textarea class="anec-ta" id="revText" placeholder="Tu reseña chingona..." required
+          style="min-height:90px; margin-bottom:16px"></textarea>
+        <button type="submit" class="btn-p" style="width:100%">Enviar Reseña</button>
+      </form>
+    </div>
   </div>
 
   <script>
@@ -1740,6 +1841,35 @@
 
     // Cargar anécdotas al inicializar
     fetchAnecdotes();
+
+    // MODALS LOGIC
+    function openModal(id) { document.getElementById(id).classList.add('open'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+    document.getElementById('openReviewBtn').addEventListener('click', (e) => {
+      e.preventDefault();
+      openModal('reviewModal');
+    });
+
+    document.getElementById('reviewForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!document.getElementById('revText').value.trim()) return;
+      closeModal('reviewModal');
+      document.getElementById('revText').value = '';
+      document.getElementById('revName').value = '';
+      toast('¡Reseña enviada con éxito! Gracias.');
+    });
+
+    // WELCOME LOGIC
+    window.addEventListener('DOMContentLoaded', () => {
+      if (!localStorage.getItem('af-welcomed')) {
+        setTimeout(() => {
+          openModal('welcomeModal');
+          localStorage.setItem('af-welcomed', 'true');
+        }, 1200); // 1.2s delay for a smoother entry
+      }
+    });
+
   </script>
 </body>
 
