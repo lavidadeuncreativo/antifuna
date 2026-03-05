@@ -1119,7 +1119,7 @@
       }
 
       .hero {
-        padding: 36px 20px 60px
+        padding: 24px 20px 48px
       }
 
       .sticky-field {
@@ -1128,7 +1128,7 @@
 
       .editor-wrap {
         grid-template-columns: 1fr;
-        margin-top: 28px
+        margin-top: 36px
       }
 
       .ep {
@@ -1165,20 +1165,23 @@
       }
 
       h1 {
-        font-size: clamp(34px, 10vw, 44px);
-        line-height: 1.05;
-        margin-bottom: 20px;
+        font-size: clamp(42px, 12vw, 56px);
+        line-height: .98;
+        margin-bottom: 24px;
       }
 
       .hero-sub {
-        font-size: 14px;
-        line-height: 1.5;
-        margin-bottom: 30px !important;
+        font-size: 15px;
+        line-height: 1.45;
+        margin-bottom: 24px !important;
+        padding: 0 10px;
       }
 
       .kicker {
-        font-size: 9px;
-        margin-top: 18px !important;
+        font-size: 8.5px;
+        margin-top: 24px !important;
+        line-height: 1.6;
+        padding: 0 10px;
       }
 
       .editor-wrap {
@@ -1404,6 +1407,7 @@
     document.getElementById('hamburger').addEventListener('click', () => document.getElementById('mobileMenu').classList.add('open'));
     document.getElementById('menuClose').addEventListener('click', () => document.getElementById('mobileMenu').classList.remove('open'));
     function closeMobileMenu() { document.getElementById('mobileMenu').classList.remove('open') }
+    document.querySelectorAll('.mobile-menu a').forEach(el => el.addEventListener('click', closeMobileMenu));
 
     // PROGRESS
     window.addEventListener('scroll', () => { const h = document.body.scrollHeight - window.innerHeight; document.getElementById('progressBar').style.width = (h > 0 ? window.scrollY / h * 100 : 0) + '%' }, { passive: true });
