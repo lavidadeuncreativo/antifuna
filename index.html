@@ -1654,7 +1654,7 @@
     }
     rTimer = setInterval(() => goToReview(rIdx + 1), 5500);
 
-    // ANECDOTES
+    // ANECDOTAS (Supabase via Vercel Edge API)
     const seedPosts = [
       { name: 'Anónimo', cat: 'Correo con CC accidental 😱', text: 'No mames, le iba a echar mierda al wey de legal por whatsapp y me equivoqué de ventana de Slack y lo mandé al canal #general. Borré el mensaje a los 2 segundos pero mi jefe alcanzó a darle like.' },
       { name: 'Ricardo', cat: 'Jefe insoportable 👔', text: 'Estábamos en junta presencial y mi jefe dice: "bueno chavos hay que ponerse la camiseta este finde". Literal le contesté "la mía está en la tintorería". Hubo un silencio como de 40 segundos.' },
@@ -1662,10 +1662,30 @@
       { name: 'Sofía', cat: 'Aumento negado 💸', text: 'Llevo 3 años sacando la chamba de 3 personas. Pedí aumento y me dijeron "no hay presupuesto, pero aquí te va una pizza gratis el viernes". Al día siguiente armaron otra oficina para los directores. Neta qué perro coraje.' },
       { name: 'El Mike', cat: 'Compañero tóxico ☠️', text: 'Tengo un wey al lado que si no respondes a los 5 minutos en teams te va a tocar el hombro. Una vez estaba en el baño, vino y tocó la puerta del cubículo para preguntarme de un excel.' },
     ];
-    let posts = JSON.parse(localStorage.getItem('af-posts') || 'null') || [...seedPosts];
+
+    let posts = [...seedPosts]; // Default fallback list
+
+    async function fetchAnecdotes() {
+      try {
+        const res = await fetch('/api/anecdotes');
+        if (!res.ok) throw new Error('Failed to fetch bd');
+        const data = await res.json();
+
+        if (data.anecdotes && data.anecdotes.length > 0) {
+          // Si hay datos en la DB, combinamos los viejos con los nuevos
+          // Ponemos las de la BD arriba, y las de "semilla" abajo
+          posts = [...data.anecdotes, ...seedPosts];
+        }
+        renderPosts();
+      } catch (e) {
+        console.error('Info: Usando anécdotas locales de respaldo.');
+        renderPosts();
+      }
+    }
+
     function renderPosts() {
       const list = document.getElementById('anecList'); list.innerHTML = '';
-      [...posts].reverse().slice(0, 8).forEach(p => {
+      [...posts].slice(0, 8).forEach(p => {
         const d = document.createElement('div'); d.className = 'anec-post';
         d.innerHTML = `<p class="anec-post-text">"${p.text}"</p>
         <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -1675,18 +1695,49 @@
         list.appendChild(d);
       });
     }
-    renderPosts();
-    document.getElementById('anecForm').addEventListener('submit', e => {
+
+    // Configurar envío
+    const formBtn = document.querySelector('#anecForm button');
+    document.getElementById('anecForm').addEventListener('submit', async e => {
       e.preventDefault();
       const text = document.getElementById('anecText').value.trim(); if (!text) return;
       const anon = document.getElementById('anecAnon').checked;
       const name = anon ? 'Anónimo' : (document.getElementById('anecName').value.trim() || 'Anónimo');
       const cat = document.getElementById('anecCat').value || 'Otro desastre laboral 🔥';
-      posts.push({ name, cat, text });
-      localStorage.setItem('af-posts', JSON.stringify(posts));
-      document.getElementById('anecText').value = ''; document.getElementById('anecName').value = '';
-      renderPosts(); toast('Trauma publicado. La comunidad te ve.');
+
+      const origTextBtn = formBtn.textContent;
+      formBtn.textContent = 'Enviando...';
+      formBtn.disabled = true;
+
+      try {
+        const res = await fetch('/api/anecdotes', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, cat, text })
+        });
+
+        if (res.ok) {
+          // Insert local temporary for instant feedback
+          posts.unshift({ name, cat, text });
+          renderPosts();
+          document.getElementById('anecText').value = '';
+          document.getElementById('anecName').value = '';
+          toast('Trauma publicado. La comunidad te ve.');
+          // Silently reload the truth
+          fetchAnecdotes();
+        } else {
+          toast('Error al publicar anécdota.');
+        }
+      } catch (err) {
+        toast('Error de red al publicar.');
+      } finally {
+        formBtn.textContent = origTextBtn;
+        formBtn.disabled = false;
+      }
     });
+
+    // Cargar anécdotas al inicializar
+    fetchAnecdotes();
   </script>
 </body>
 
