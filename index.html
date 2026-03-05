@@ -1162,7 +1162,7 @@
   <!-- Mobile menu overlay -->
   <div class="mobile-menu" id="mobileMenu">
     <button class="mobile-menu-close" id="menuClose" aria-label="Cerrar">&#x2715;</button>
-    <a href="#editor" onclick="closeMobileMenu()">Editor</a>
+    <a href="#editor" onclick="closeMobileMenu()">Usar la herramienta</a>
     <a href="#resenas" onclick="closeMobileMenu()">Rese&#xF1;as</a>
     <a href="#anecdotas" onclick="closeMobileMenu()">An&#xE9;cdotas</a>
   </div>
@@ -1170,7 +1170,7 @@
   <nav>
     <div class="logo">ANTI-FUNA<span>La vida de un creativo</span></div>
     <div class="nav-links">
-      <a href="#editor">Editor</a>
+      <a href="#editor">Usar la herramienta</a>
       <a href="#resenas">Rese&#xF1;as</a>
       <a href="#anecdotas">An&#xE9;cdotas</a>
     </div>
@@ -1207,9 +1207,11 @@
   <section class="hero" id="editor">
     <div class="sticky-field" id="sField"></div>
     <div class="hero-text">
-      <span class="kicker">Porque a veces necesitamos pensarlo dos veces antes de enviar ese mensaje.</span>
+      <p class="hero-sub" style="margin-bottom: 22px;">Escribe lo que de verdad piensas. Copia y manda sin sonar
+        grosero.</p>
       <h1>Di lo que piensas,<br><em>evita que te despidan.</em></h1>
-      <p class="hero-sub">Escribe lo que de verdad piensas.<br>Copia y manda sin sonar grosero.</p>
+      <span class="kicker" style="margin-bottom: 0; margin-top: 26px;">Porque a veces necesitamos pensarlo dos veces
+        antes de enviar ese mensaje.</span>
     </div>
 
     <div class="editor-wrap">
@@ -1282,8 +1284,9 @@
   <!-- ANECDOTAS -->
   <section id="anecdotas">
     <div class="anec-section">
-      <h2 class="anec-title">Conf&#xED;esalo aqu&#xED; &#x1F92B;</h2>
-      <p class="anec-sub">&#xBF;Cu&#xE1;l fue tu peor momento laboral? An&#xF3;nimo o no, aqu&#xED; nadie te juzga.</p>
+      <h2 class="anec-title">Confiesa tu peor experiencia laboral &#x1F480;</h2>
+      <p class="anec-sub">&#xBF;Cu&#xE1;l fue tu peor momento god&#xED;n? An&#xF3;nimo o no, aqu&#xED; nadie te juzga.
+      </p>
       <form class="anec-form" id="anecForm" novalidate>
         <div class="anec-row">
           <input class="anec-input" id="anecName" type="text" placeholder="Tu nombre (opcional)" />
@@ -1299,7 +1302,7 @@
           </select>
         </div>
         <textarea class="anec-ta" id="anecText"
-          placeholder="Cont&#xE1;nosla&#x2026; sé específico, el anonimato es tu escudo"></textarea>
+          placeholder="Su&#xE9;ltalo todo wey... s&#xE9; espec&#xED;fico, nadie se va a enterar, el anonimato es tu escudo"></textarea>
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
           <label class="anec-check"><input type="checkbox" id="anecAnon" checked /> Publicar an&#xF3;nimo
             &#x1F575;&#xFE0F;</label>
@@ -1320,8 +1323,8 @@
       <a href="https://www.linkedin.com/in/lavidadeuncreativo/" target="_blank">LinkedIn</a>
       <a href="https://www.instagram.com/lavidadeuncreativo/" target="_blank">Instagram</a>
       <a href="https://www.threads.net/@lavidadeuncreativo" target="_blank">Threads</a>
-      <a href="https://link.mercadopago.com.mx/lavidadeuncreativo" target="_blank">Inv&#xED;tale un caf&#xE9;
-        &#x2615;</a>
+      <a href="https://link.mercadopago.com.mx/lavidadeuncreativo" target="_blank">Inv&#xED;tame un caf&#xE9; / Hazme
+        una donaci&#xF3;n</a>
     </div>
   </footer>
 
@@ -1375,12 +1378,12 @@
 
     // STICKIES
     const stickyData = [
-      { bg: '#9B59B6', tc: '#fff', rot: -6, pos: { left: '0', top: '0' }, b: 'Tu idea es una basura, la neta.', a: 'Consideramos que hay oportunidades de mejora significativas en esta propuesta.' },
-      { bg: '#E67E22', tc: '#fff', rot: 5, pos: { right: '8px', top: '8px' }, b: '"NO MAMES, PÁGAME."', a: '"Quedo atento al comprobante para conciliación contable."' },
-      { bg: '#E74C3C', tc: '#fff', rot: -4, pos: { left: '0', top: '48%' }, b: 'No me interesa tu teambuilding de mierda.', a: 'Priorizaré mis compromisos actuales en esa fecha.' },
-      { bg: '#3498DB', tc: '#fff', rot: 4, pos: { right: '8px', top: '48%' }, b: '"Oye ya quedó?? Me urge cabrón."', a: '"Quedo a la espera de tu amable confirmación."' },
-      { bg: '#F1C40F', tc: '#0A0A0A', rot: -5, pos: { left: '20px', bottom: '20px' }, b: 'Me caes bien mal, pícate la cola.', a: 'Encuentro nuestra interacción particularmente desafiante en este momento.' },
-      { bg: '#2ECC71', tc: '#0A0A0A', rot: 6, pos: { right: '20px', bottom: '20px' }, b: 'Si usas "bendiciones" mereces que te corran.', a: 'Un cordial saludo. Quedo a sus órdenes.' },
+      { bg: '#9B59B6', tc: '#fff', rot: -6, pos: { left: '0', top: '0' }, b: 'odio trabajar contigo', a: 'Ha sido un reto encontrar un ritmo de trabajo fluido últimamente.' },
+      { bg: '#E67E22', tc: '#fff', rot: 5, pos: { right: '8px', top: '8px' }, b: 'ya te mandé esto 3 veces lee maldita sea', a: 'Como mencioné en correos anteriores, adjunto la información solicitada.' },
+      { bg: '#E74C3C', tc: '#fff', rot: -4, pos: { left: '0', top: '48%' }, b: 'no me pagan lo suficiente para hacer esto', a: 'Revisé mis responsabilidades actuales y esto queda fuera del alcance inicial.' },
+      { bg: '#3498DB', tc: '#fff', rot: 4, pos: { right: '8px', top: '48%' }, b: 'neta pareces nuevo haciendo esto', a: 'Podríamos agendar una sesión breve para asegurar que dominas el proceso.' },
+      { bg: '#F1C40F', tc: '#0A0A0A', rot: -5, pos: { left: '20px', bottom: '20px' }, b: 'ya págame lo que me debes', a: 'Escribo para darle seguimiento al pago pendiente agendado para esta semana.' },
+      { bg: '#2ECC71', tc: '#0A0A0A', rot: 6, pos: { right: '20px', bottom: '20px' }, b: 'tu diseño está horrible la verdad', a: 'Siento que el diseño actual se aleja de la visión y objetivos planteados.' },
     ];
     const sField = document.getElementById('sField');
     const sEls = stickyData.map(d => {
@@ -1441,8 +1444,8 @@
     // GLOBAL COUNTER
     let tCount = parseInt(localStorage.getItem('af-tcount') || '14231', 10);
     const gCounter = document.getElementById('globalCounterVal');
-    if(gCounter) gCounter.textContent = tCount.toLocaleString('en-US');
-    function incCounter() { tCount += Math.floor(Math.random() * 3) + 1; localStorage.setItem('af-tcount', tCount.toString()); if(gCounter) gCounter.textContent = tCount.toLocaleString('en-US'); }
+    if (gCounter) gCounter.textContent = tCount.toLocaleString('en-US');
+    function incCounter() { tCount += Math.floor(Math.random() * 3) + 1; localStorage.setItem('af-tcount', tCount.toString()); if (gCounter) gCounter.textContent = tCount.toLocaleString('en-US'); }
 
     // TRANSFORM ENGINE V5 — Serverless API proxy (key protected on server)
     let typTimer = null;
@@ -1506,14 +1509,13 @@
 
     // REVIEWS STACK
     const reviews = [
-      { stars: 5, text: 'odio trabajar contigo → Ha sido un reto encontrar un ritmo de trabajo fluido últimamente.', author: '@karens_mx' },
-      { stars: 5, text: 'tu idea es una estupidez → Considero que el enfoque actual podría presentar riesgos si no lo ajustamos.', author: '@pao.design — GDL' },
-      { stars: 4, text: 'ya te mandé esto 3 veces lee maldita sea → Como mencioné en correos anteriores, adjunto la información solicitada.', author: '@rodrigo.c — Director' },
-      { stars: 5, text: 'no me pagan lo suficiente para hacer esto → Revisé mis responsabilidades actuales y esto queda fuera del alcance inicial.', author: '@anon — Supply Chain' },
-      { stars: 5, text: 'neta pareces nuevo haciendo esto → Podríamos agendar una sesión breve para asegurar que dominas el proceso sin problemas.', author: '@luisaf — PM, CDMX' },
-      { stars: 4, text: 'ya págame lo que me debes → Escribo para darle seguimiento al pago pendiente agendado para esta semana.', author: '@anon — Freelancer' },
-      { stars: 5, text: 'tu diseño está horrible la verdad → Siento que el diseño actual se aleja de la visión y los objetivos que habíamos planteado.', author: '@mi.chamba — Consultora' },
-      { stars: 5, text: 'me caes tan mal que quiero renunciar → Prefiero mantener nuestras interacciones limitadas a los temas críticos del proyecto.', author: '@danielamm — UX' },
+      { stars: 5, text: 'Wey, ayer casi mando a la goma a mi PM por pedirme un avance a las 11 pm. Puse mi insulto aquí y me lo dejó súper diplomático. Literal me salvó la chamba.', author: '@dani_ux' },
+      { stars: 5, text: 'La neta no creí que funcionara pero le puse "mi jefe es un pendejo" y me redactó un feedback para RH súper profesional. 10/10 esta joya.', author: '@godin_cansado' },
+      { stars: 4, text: 'Me urgía cobrar una factura de hace 3 meses y ya estaba bien ardido. Usé Anti-funa, mandé el correo y me depositaron en friega. De locos.', author: '@freelance_mx' },
+      { stars: 5, text: 'No manchen, mi compa de contaduría siempre contesta súper pasivo agresivo. Ayer le mandé esto y hoy su correo hasta me deseó buen fin de semana. Milagro.', author: '@pao.design_99' },
+      { stars: 5, text: 'Estaba a nada de pelearme con el cliente por 5ta ronda de cambios. Respiré, lo pasé por esta madre y soné tan fresa y amable que me pidió perdón.', author: '@arturo.crea' },
+      { stars: 4, text: 'Al chile está chido, te quita lo barrio para mandar correos cuando andas estresado jajaja me la curo leyendo lo que me escupe.', author: '@el.yisus' },
+      { stars: 5, text: 'Recomiendo 100%. Me ayuda a mantener la cordura y el salario seguro en esta empresa tóxica.', author: '@anon_mkt' },
     ];
 
     const revStack = document.getElementById('revStack'), revDots = document.getElementById('revDots');
@@ -1545,11 +1547,11 @@
 
     // ANECDOTES
     const seedPosts = [
-      { name: 'Anónimo', cat: 'Email que casi me cuesta el trabajo 📧', text: 'respondí reply all a un correo de TODA la empresa dando mi opinión sobre los cambios al sistema de bonos. tardé 4 segundos en querer morirme. HR nunca dijo nada. nunca.' },
-      { name: 'Rodrigo', cat: 'Jefe insoportable 👔', text: 'mi jefe me preguntó si podía quedarme el viernes hasta las 9. era mi aniversario. lo que quería decirle lo reservo para mí. dije que sí y pedí divorcio ese mismo mes. (broma... creo)' },
-      { name: 'Anónimo', cat: 'Reunión innecesaria 📅', text: 'junta de 2 horas para "alinear expectativas del q3". al final: "bueno, pues ya saben lo que se espera de ustedes". me les quedé viendo 10 segundos en silencio antes de cerrar la cámara.' },
-      { name: 'Fernanda', cat: 'Correo con CC accidental 😱', text: 'le mandé a mi compañera de trabajo un mensaje de voz criticando al cliente diciéndole "es que el señor es un horror". el cliente estaba en el grupo. lo sigo soñando.' },
-      { name: 'Anónimo', cat: 'Compañero tóxico ☠️', text: 'tengo un compañero que dice "bendiciones" al final de cada correo. con anti-funa proceso mi ira de forma saludable. espero.' },
+      { name: 'Anónimo', cat: 'Correo con CC accidental 😱', text: 'No mames, le iba a echar mierda al wey de legal por whatsapp y me equivoqué de ventana de Slack y lo mandé al canal #general. Borré el mensaje a los 2 segundos pero mi jefe alcanzó a darle like.' },
+      { name: 'Ricardo', cat: 'Jefe insoportable 👔', text: 'Estábamos en junta presencial y mi jefe dice: "bueno chavos hay que ponerse la camiseta este finde". Literal le contesté "la mía está en la tintorería". Hubo un silencio como de 40 segundos.' },
+      { name: 'Anónimo', cat: 'Reunión innecesaria 📅', text: 'Entré a una meeting que se llamó "Sincronización de alineadores críticos para el deploy". Duró 3 HORAS wey y todos namás dimos vueltas. Puse mi cámara en negro y me puse a jugar Xbox.' },
+      { name: 'Sofía', cat: 'Aumento negado 💸', text: 'Llevo 3 años sacando la chamba de 3 personas. Pedí aumento y me dijeron "no hay presupuesto, pero aquí te va una pizza gratis el viernes". Al día siguiente armaron otra oficina para los directores. Neta qué perro coraje.' },
+      { name: 'El Mike', cat: 'Compañero tóxico ☠️', text: 'Tengo un wey al lado que si no respondes a los 5 minutos en teams te va a tocar el hombro. Una vez estaba en el baño, vino y tocó la puerta del cubículo para preguntarme de un excel.' },
     ];
     let posts = JSON.parse(localStorage.getItem('af-posts') || 'null') || [...seedPosts];
     function renderPosts() {
